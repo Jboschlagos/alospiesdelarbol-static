@@ -1,595 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A los pies del árbol</title>
-
-  <style>
-    @font-face {
-      font-family: "Lunema";
-      src: url("assets/Lunema-Regular.woff2") format("woff2");
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    :root {
-      --green: #c7ff02;
-      --black: #000000;
-      --white: #e8e8e8;
-      --dark: #050505;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: var(--black);
-      color: var(--green);
-      font-family: "Lunema", Arial, sans-serif;
-      letter-spacing: 0.03em;
-      line-height: 1.5;
-    }
-
-    .topbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 999;
-      width: 100%;
-      height: 56px;
-      background: var(--green);
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 64px;
-      font-size: 13px;
-      letter-spacing: 0.55em;
-      text-transform: uppercase;
-    }
-
-    .info-link {
-      position: absolute;
-      left: 39%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #000;
-      color: var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 0;
-      text-decoration: none;
-    }
-
-    .topbar-title {
-      padding-left: 40px;
-    }
-
-    section {
-      min-height: 100vh;
-      padding: 110px 12vw 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr 1fr;
-      align-items: start;
-      text-align: center;
-      background: #000;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 56px 0 0;
-      background:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.95)),
-        url("assets/hero.jpg") center top / cover no-repeat;
-      opacity: 0.45;
-      pointer-events: none;
-    }
-
-    .hero > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-name {
-      margin-top: 90px;
-      font-size: clamp(18px, 1.6vw, 28px);
-      line-height: 1.05;
-      text-transform: uppercase;
-    }
-
-    .hero-title {
-      margin-top: 90px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(52px, 6.5vw, 105px);
-      font-weight: 400;
-      line-height: 0.95;
-      text-transform: uppercase;
-    }
-
-    .director {
-    margin-top: 20px;
-    font-size: clamp(15px, 1.1vw, 22px);
-    text-transform: uppercase;
-    white-space: nowrap;
-    align-items: center;
-    text-align: center;
-    left: 108%;
-}
-
-    .dossier {
-      grid-column: 2;
-      margin-top: 70px;
-      color: var(--white);
-      font-family: Arial, sans-serif;
-      letter-spacing: 0.03em;
-      font-size: 15px;
-    }
-
-    .buttons {
-      grid-column: 2;
-      display: flex;
-      justify-content: center;
-      gap: 80px;
-      margin-top: 36px;
-    }
-
-    .btn {
-      min-width: 190px;
-      padding: 9px 18px;
-      border: 1px solid var(--green);
-      color: var(--green);
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      transition: all 0.25s ease;
-    }
-
-    .btn:hover {
-      background: var(--green);
-      color: #000;
-    }
-
-    .image-section {
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-    }
-
-    .resena {
-  background-image:
-    linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.2)),
-    url("assets/resena.jpg");
-}
-
-    .descripcion {
-  background-image:
-    linear-gradient(90deg, rgba(0,0,0,0.95), rgba(0,0,0,0.72)),
-    url("assets/description.jpg");
-  background-position: left center;
-}
-
-    .content {
-      max-width: 590px;
-    }
-
-    .descripcion .content {
-      margin-left: 38%;
-      max-width: 700px;
-    }
-
-    h2 {
-      margin: 0 0 38px;
-      font-size: clamp(34px, 3vw, 60px);
-      font-weight: 400;
-      line-height: 1;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--green);
-    }
-
-    p {
-      margin: 0 0 20px;
-      font-size: clamp(14px, 1vw, 18px);
-      line-height: 1.55;
-      color: var(--green);
-    }
-
-    .credits-section {
-      min-height: 78vh;
-      padding-top: 130px;
-      background: linear-gradient(#050505, #0a0a0a);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .credits {
-      width: min(600px, 90vw);
-      color: var(--white);
-      font-family: Arial, sans-serif;
-      letter-spacing: 0.04em;
-      font-size: 15px;
-      line-height: 1.7;
-    }
-
-    .credits p {
-      color: var(--white);
-      font-size: 15px;
-      margin-bottom: 4px;
-    }
-
-    .credits strong {
-      font-weight: 700;
-    }
-
-    .credits a {
-      color: var(--green);
-      text-decoration: none;
-    }
-
-    footer {
-      background: #181818;
-      color: #777;
-      text-align: center;
-      padding: 14px 20px;
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.02em;
-      z-index: 3000;
-      position: relative;
-    }
-
-    @media (max-width: 900px) {
-      .topbar {
-        gap: 20px;
-        font-size: 11px;
-        letter-spacing: 0.35em;
-      }
-
-      .info-link {
-        left: 24px;
-      }
-
-      section {
-        padding: 95px 28px 60px;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero-name,
-      .hero-title,
-      .director,
-      .dossier,
-      .buttons {
-        grid-column: 1;
-        margin-top: 36px;
-      }
-
-      .director {
-        white-space: normal;
-      }
-
-      .buttons {
-        flex-direction: column;
-        gap: 16px;
-        align-items: center;
-      }
-
-      .btn {
-        width: min(280px, 100%);
-      }
-
-      .image-section {
-        align-items: flex-start;
-      }
-
-      .descripcion .content {
-        margin-left: 0;
-      }
-
-      .content {
-        max-width: 100%;
-      }
-    }
-
-   #tree-lines {
-  position: fixed;
-  top: 56px;
-  left: 0;
-  width: 100vw;
-  height: calc(100vh - 56px);
-  z-index: 1500;
-  pointer-events: none;
-  opacity: 0.75;
-}
-
-section,
-.hero {
-  position: relative;
-  z-index: 2;
-}
-
-.topbar {
-  z-index: 3000;
-}
-  </style>
-</head>
-
-<body>
-    <canvas id="tree-lines"></canvas>
-
-  <nav class="topbar">
-    <a class="info-link" href="#info" aria-label="Ir a información de la obra">i</a>
-    <span class="topbar-title">A los pies del árbol</span>
-  </nav>
-
-  <section class="hero" id="inicio">
-    <div class="hero-name">
-      Humberto<br>
-      Maturana
-    </div>
-
-    <div class="hero-title">
-      <h1>
-        A<br>
-        los<br>
-        pies<br>
-        del<br>
-        árbol
-      </h1>
-    </div>
-
-    <div class="hero-name">
-      Patricia<br>
-      Rivadeneira
-    </div>
-
-    <div class="director">
-      Manuela Oyarzún Grau
-    </div>
-
-    <div class="dossier">
-      Descargar Dossier de la obra
-    </div>
-
-    <div class="buttons">
-  <a class="btn" href="assets/a-los-pies-del-arbol_DOSSIER_ES_.pdf" target="_blank">
-    Versión en español
-  </a>
-
-  <a class="btn" href="assets/a-los-pies-del-arbol_DOSSIER_EN_.pdf" target="_blank">
-    English version
-  </a>
-</div>
-  </section>
-
-  <section class="image-section resena" id="info">
-    <div class="content">
-      <h2>Reseña</h2>
-
-      <p>
-        A los pies del Árbol es una intervención teatral que articula fragmentos extraídos del libro
-        “El árbol del conocimiento”, co-escrito por Humberto Maturana, Premio Nacional de Ciencias 1994,
-        y el científico Francisco Varela, desplegándose en la puesta en escena para dejar aparecer preguntas
-        y especulaciones en torno al concepto de “autopoiesis”.
-      </p>
-
-      <p>
-        La tesis de Maturana sobre la autopoiesis sostiene que los seres vivos somos sistemas autopoiéticos
-        moleculares en constante producción de sí mismos, y esa producción de sí mismo constituye el vivir.
-        Según su teoría, todo ser vivo es un sistema cerrado que está continuamente creándose, reparando,
-        manteniendo y modificándose.
-      </p>
-
-      <p>
-        La obra busca acercar al público este concepto y relevar el pensamiento de Maturana, desde la experiencia
-        sensorial y afectiva de la colectividad. En escena, se reúnen cuerpos, sonidos, música, espacio, luz y
-        tecnología, para mostrar que tanto ciencia como arte son formas de conocer e interpretar el mundo.
-      </p>
-    </div>
-  </section>
-
-  <section class="image-section descripcion">
-    <div class="content">
-      <h2>Descripción</h2>
-
-      <p>
-        La obra A los pies del árbol cuenta episodios de la vida de Humberto Maturana y entrega los conceptos
-        fundamentales de su investigación como científico y pensador.
-      </p>
-
-      <p>
-        ¿Qué es lo vivo? ¿Qué es lo vivo que muere? Se pregunta el niño Humberto Maturana, en la voz de una actriz,
-        cuando ve morir a su gato a los 8 años. Mientras lo busca en el escenario descubrimos que estamos en un
-        dispositivo escénico que representa su cabeza por dentro.
-      </p>
-
-      <p>
-        La actriz se da cuenta que no está sola, espectadores, músico, iluminador y la propia directora, comparten
-        un espacio común. Aquello que Humberto se pregunta también resuena en la escena.
-      </p>
-
-      <p>
-        Confundida, al no poder entender a cabalidad, ni explicar los conceptos del científico, tiene una crisis que
-        la lleva a visitar al doctor. En escena desfilan Humberto, su madre, una novia, Darwin, un gorila, abordando
-        temáticas como el origen de los seres vivos, el autoconocimiento, la guerra, el amor como fenómeno biológico,
-        la amistad y la muerte.
-      </p>
-    </div>
-  </section>
-
-  <section class="credits-section">
-    <div class="credits">
-      <p><strong>Dramaturgismo, creación y dirección:</strong> Manuela Oyarzún Grau</p>
-      <p><strong>Intérprete:</strong> Patricia Rivadeneira</p>
-      <p><strong>Composición musical:</strong> Alejandro Miranda</p>
-      <p><strong>Diseño dispositivo:</strong> Macarena Urzúa y Rodrigo Santa María</p>
-      <p>(Siglo22 Arquitectos)</p>
-      <p><strong>Diseño iluminación:</strong> Marcelo Salinas</p>
-      <p><strong>Diseño y producción de vestuario y utilería:</strong> Loreto Martínez</p>
-      <p><strong>Producción ejecutiva:</strong> Manuela Oyarzún y Patricia Rivadeneira</p>
-      <p><strong>Producción general:</strong> Javiera Vio</p>
-      <p><strong>Asistente de dirección:</strong> Bárbara Vera</p>
-      <p><strong>Diseño gráfico:</strong> Felicidad Pública</p>
-      <p><strong>Curatoría códigos QR:</strong> Alejandra Delgado</p>
-      <p><strong>Página web:</strong> Roberto Torres</p>
-      <p><strong>Redes sociales:</strong> Francisco Silva</p>
-
-      <br>
-
-      <p><strong>Agradecimiento especial:</strong> Javier Ibacache</p>
-      <p><strong>Agradecimientos:</strong> Cámara chilena de la construcción y Matías Cardone.</p>
-
-      <br>
-
-      <p>Proyecto presentado por GAM y SURA</p>
-
-      <br>
-
-      <p><strong>IG:</strong></p>
-      <p><a href="https://www.instagram.com/alospiesdelarbol/" target="_blank">@alospiesdelarbol</a></p>
-    </div>
-  </section>
-
-  <footer>
-    Diseñado por Roberto Torres — Wonder Digital ©
-  </footer>
-
-  <script>
-  const canvas = document.getElementById("tree-lines");
-  const ctx = canvas.getContext("2d");
-
-  let width;
-  let height;
-  let lines = [];
-
-  const GREEN = "#c7ff02";
-
-  function resizeCanvas() {
-    width = canvas.width = window.innerWidth * window.devicePixelRatio;
-    height = canvas.height = window.innerHeight * window.devicePixelRatio;
-
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-
-    ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-    createLines();
-  }
-
-  function createLines() {
-    const count = window.innerWidth < 768 ? 5 : 9;
-
-    lines = Array.from({ length: count }, (_, i) => {
-      const startX = (window.innerWidth / (count + 1)) * (i + 1);
-      const drift = (Math.random() - 0.5) * 260;
-      const curve = (Math.random() - 0.5) * 420;
-
-      return {
-        startX,
-        startY: -80 - Math.random() * 180,
-        endX: startX + drift,
-        endY: window.innerHeight + 180,
-        cp1X: startX + curve,
-        cp1Y: window.innerHeight * (0.25 + Math.random() * 0.2),
-        cp2X: startX - curve * 0.55,
-        cp2Y: window.innerHeight * (0.55 + Math.random() * 0.25),
-        progress: 0,
-        speed: 0.0007 + Math.random() * 0.0012,
-        width: 0.45 + Math.random() * 0.45,
-        opacity: 0.3 + Math.random() * 0.25
-      };
-    });
-  }
-
-  function getBezierPoint(t, p0, p1, p2, p3) {
-    const cX = 3 * (p1.x - p0.x);
-    const bX = 3 * (p2.x - p1.x) - cX;
-    const aX = p3.x - p0.x - cX - bX;
-
-    const cY = 3 * (p1.y - p0.y);
-    const bY = 3 * (p2.y - p1.y) - cY;
-    const aY = p3.y - p0.y - cY - bY;
-
-    return {
-      x: aX * Math.pow(t, 3) + bX * Math.pow(t, 2) + cX * t + p0.x,
-      y: aY * Math.pow(t, 3) + bY * Math.pow(t, 2) + cY * t + p0.y
-    };
-  }
-
-  function drawLine(line) {
-    const p0 = { x: line.startX, y: line.startY };
-    const p1 = { x: line.cp1X, y: line.cp1Y };
-    const p2 = { x: line.cp2X, y: line.cp2Y };
-    const p3 = { x: line.endX, y: line.endY };
-
-    ctx.beginPath();
-
-    const first = getBezierPoint(0, p0, p1, p2, p3);
-    ctx.moveTo(first.x, first.y);
-
-    const steps = 140;
-    const maxT = line.progress;
-
-    for (let i = 1; i <= steps * maxT; i++) {
-      const t = i / steps;
-      const point = getBezierPoint(t, p0, p1, p2, p3);
-      ctx.lineTo(point.x, point.y);
-    }
-
-    ctx.strokeStyle = GREEN;
-    ctx.globalAlpha = line.opacity;
-    ctx.lineWidth = line.width;
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-    lines.forEach(line => {
-      if (line.progress < 1) {
-        line.progress += line.speed;
-      }
-
-      drawLine(line);
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-
-  resizeCanvas();
-  animate();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A los pies del árbol - Obra teatral basada en el pensamiento de Humberto Maturana"
+    />
+
+    <title>A los pies del árbol</title>
+
+    <!-- CSS separado -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <!-- Preload tipografía para evitar FOIT/FOUT -->
+    <link
+      rel="preload"
+      href="/assets/fonts/Lunema-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+  </head>
+
+  <body>
+    <!-- Canvas para animación generativa de líneas (árbol) -->
+    <canvas id="tree-lines" aria-hidden="true"></canvas>
+
+    <!-- Barra de navegación fija -->
+    <nav class="topbar" role="navigation" aria-label="Navegación principal">
+      <a class="info-link" href="#info" aria-label="Ir a información de la obra"
+        >i</a
+      >
+      <span class="topbar-title">A los pies del árbol</span>
+    </nav>
+
+    <!-- Sección Hero -->
+    <section class="hero" id="inicio">
+      <div class="hero-name">
+        Humberto<br />
+        Maturana
+      </div>
+
+      <div class="hero-title">
+        <h1>
+          A<br />
+          los<br />
+          pies<br />
+          del<br />
+          árbol
+        </h1>
+      </div>
+
+      <div class="hero-name">
+        Patricia<br />
+        Rivadeneira
+      </div>
+
+      <div class="director">Manuela Oyarzún Grau</div>
+
+      <div class="dossier">Descargar Dossier de la obra</div>
+
+      <div class="buttons">
+        <a
+          class="btn"
+          href="assets/documents/a-los-pies-del-arbol_DOSSIER_ES_.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Versión en español
+        </a>
+
+        <a
+          class="btn"
+          href="assets/documents/a-los-pies-del-arbol_DOSSIER_EN_.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          English version
+        </a>
+      </div>
+    </section>
+
+    <!-- Sección Reseña -->
+    <section class="image-section resena" id="info">
+      <div class="content">
+        <h2>Reseña</h2>
+
+        <p>
+          A los pies del Árbol es una intervención teatral que articula
+          fragmentos extraídos del libro "El árbol del conocimiento", co-escrito
+          por Humberto Maturana, Premio Nacional de Ciencias 1994, y el
+          científico Francisco Varela, desplegándose en la puesta en escena para
+          dejar aparecer preguntas y especulaciones en torno al concepto de
+          "autopoiesis".
+        </p>
+
+        <p>
+          La tesis de Maturana sobre la autopoiesis sostiene que los seres vivos
+          somos sistemas autopoiéticos moleculares en constante producción de sí
+          mismos, y esa producción de sí mismo constituye el vivir. Según su
+          teoría, todo ser vivo es un sistema cerrado que está continuamente
+          creándose, reparando, manteniendo y modificándose.
+        </p>
+
+        <p>
+          La obra busca acercar al público este concepto y relevar el
+          pensamiento de Maturana, desde la experiencia sensorial y afectiva de
+          la colectividad. En escena, se reúnen cuerpos, sonidos, música,
+          espacio, luz y tecnología, para mostrar que tanto ciencia como arte
+          son formas de conocer e interpretar el mundo.
+        </p>
+      </div>
+    </section>
+
+    <!-- Sección Descripción -->
+    <section class="image-section descripcion">
+      <div class="content">
+        <h2>Descripción</h2>
+
+        <p>
+          La obra A los pies del árbol cuenta episodios de la vida de Humberto
+          Maturana y entrega los conceptos fundamentales de su investigación
+          como científico y pensador.
+        </p>
+
+        <p>
+          ¿Qué es lo vivo? ¿Qué es lo vivo que muere? Se pregunta el niño
+          Humberto Maturana, en la voz de una actriz, cuando ve morir a su gato
+          a los 8 años. Mientras lo busca en el escenario descubrimos que
+          estamos en un dispositivo escénico que representa su cabeza por
+          dentro.
+        </p>
+
+        <p>
+          La actriz se da cuenta que no está sola, espectadores, músico,
+          iluminador y la propia directora, comparten un espacio común. Aquello
+          que Humberto se pregunta también resuena en la escena.
+        </p>
+
+        <p>
+          Confundida, al no poder entender a cabalidad, ni explicar los
+          conceptos del científico, tiene una crisis que la lleva a visitar al
+          doctor. En escena desfilan Humberto, su madre, una novia, Darwin, un
+          gorila, abordando temáticas como el origen de los seres vivos, el
+          autoconocimiento, la guerra, el amor como fenómeno biológico, la
+          amistad y la muerte.
+        </p>
+      </div>
+    </section>
+
+    <!-- Sección Créditos -->
+    <section class="credits-section">
+      <div class="credits">
+        <p>
+          <strong>Dramaturgismo, creación y dirección:</strong> Manuela Oyarzún
+          Grau
+        </p>
+        <p><strong>Intérprete:</strong> Patricia Rivadeneira</p>
+        <p><strong>Composición musical:</strong> Alejandro Miranda</p>
+        <p>
+          <strong>Diseño dispositivo:</strong> Macarena Urzúa y Rodrigo Santa
+          María
+        </p>
+        <p>(Siglo22 Arquitectos)</p>
+        <p><strong>Diseño iluminación:</strong> Marcelo Salinas</p>
+        <p>
+          <strong>Diseño y producción de vestuario y utilería:</strong> Loreto
+          Martínez
+        </p>
+        <p>
+          <strong>Producción ejecutiva:</strong> Manuela Oyarzún y Patricia
+          Rivadeneira
+        </p>
+        <p><strong>Producción general:</strong> Javiera Vio</p>
+        <p><strong>Asistente de dirección:</strong> Bárbara Vera</p>
+        <p><strong>Diseño gráfico:</strong> Felicidad Pública</p>
+        <p><strong>Curatoría códigos QR:</strong> Alejandra Delgado</p>
+        <p><strong>Página web:</strong> Roberto Torres</p>
+        <p><strong>Redes sociales:</strong> Francisco Silva</p>
+
+        <br />
+
+        <p><strong>Agradecimiento especial:</strong> Javier Ibacache</p>
+        <p>
+          <strong>Agradecimientos:</strong> Cámara chilena de la construcción y
+          Matías Cardone.
+        </p>
+
+        <br />
+
+        <p>Proyecto presentado por GAM y SURA</p>
+
+        <br />
+
+        <p><strong>IG:</strong></p>
+        <p>
+          <a
+            href="https://www.instagram.com/alospiesdelarbol/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >@alospiesdelarbol</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>Diseñado por Roberto Torres — Wonder Digital ©</footer>
+
+    <!-- JavaScript separado -->
+    <script src="assets/js/main.js" defer></script>
+  </body>
 </html>
