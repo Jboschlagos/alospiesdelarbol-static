@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   A LOS PIES DEL ÁRBOL — ANIMACIÓN CANVAS
-   Sistema generativo de líneas bezier que simulan ramas de árbol
+   A LOS PIES DEL ÁRBOL — ANIMACIÓN CANVAS Y MENÚ
+   Sistema generativo de líneas bezier + control de menús
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ─────────────────────────────────────────────────────────────────────
-   CONFIGURACIÓN E INICIALIZACIÓN
+   CONFIGURACIÓN E INICIALIZACIÓN - CANVAS
    ───────────────────────────────────────────────────────────────────── */
 
 const canvas = document.getElementById("tree-lines");
@@ -85,9 +85,6 @@ function createLines() {
 /* ─────────────────────────────────────────────────────────────────────
    FUNCIÓN: CALCULAR PUNTO EN CURVA BEZIER CÚBICA
    Usa fórmula de interpolación para obtener punto en la curva
-   
-   p0 = punto inicio, p1 y p2 = controles, p3 = punto final
-   t = posición en la curva (0 a 1)
    ───────────────────────────────────────────────────────────────────── */
 
 function getBezierPoint(t, p0, p1, p2, p3) {
@@ -147,7 +144,6 @@ function drawLine(line) {
 /* ─────────────────────────────────────────────────────────────────────
    FUNCIÓN: ANIMAR
    Loop principal de animación usando requestAnimationFrame
-   Se ejecuta ~60 FPS (ajusta automáticamente según capacidad del device)
    ───────────────────────────────────────────────────────────────────── */
 
 function animate() {
@@ -169,9 +165,112 @@ function animate() {
   animationFrameId = requestAnimationFrame(animate);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   MENÚ - LÓGICA
+   ═══════════════════════════════════════════════════════════════════════ */
+
 /* ─────────────────────────────────────────────────────────────────────
-   EVENT LISTENERS
+   ELEMENTOS DEL DOM
    ───────────────────────────────────────────────────────────────────── */
+
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+const menuToggle = document.getElementById("menuToggle");
+const dropdownMenu = document.getElementById("dropdownMenu");
+
+/* ─────────────────────────────────────────────────────────────────────
+   FUNCIÓN: TOGGLE MENÚ HAMBURGUESA (MOBILE)
+   Abre/cierra el menú móvil al hacer click en el botón
+   ───────────────────────────────────────────────────────────────────── */
+
+function toggleMobileMenu() {
+  const isOpen = mobileMenu.classList.contains("active");
+
+  if (isOpen) {
+    mobileMenu.classList.remove("active");
+    hamburgerBtn.classList.remove("active");
+    hamburgerBtn.setAttribute("aria-expanded", "false");
+  } else {
+    mobileMenu.classList.add("active");
+    hamburgerBtn.classList.add("active");
+    hamburgerBtn.setAttribute("aria-expanded", "true");
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   FUNCIÓN: TOGGLE MENÚ DESPLEGABLE (DESKTOP)
+   Abre/cierra el menú desplegable al hacer click
+   ───────────────────────────────────────────────────────────────────── */
+
+function toggleDropdownMenu() {
+  const isOpen = dropdownMenu.classList.contains("active");
+
+  if (isOpen) {
+    dropdownMenu.classList.remove("active");
+    menuToggle.setAttribute("aria-expanded", "false");
+  } else {
+    dropdownMenu.classList.add("active");
+    menuToggle.setAttribute("aria-expanded", "true");
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   FUNCIÓN: CERRAR MENÚS
+   Cierra los menús cuando se hace click fuera o en un enlace
+   ───────────────────────────────────────────────────────────────────── */
+
+function closeMenus() {
+  // Cerrar menú móvil
+  mobileMenu.classList.remove("active");
+  hamburgerBtn.classList.remove("active");
+  hamburgerBtn.setAttribute("aria-expanded", "false");
+
+  // Cerrar menú desplegable
+  dropdownMenu.classList.remove("active");
+  menuToggle.setAttribute("aria-expanded", "false");
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   EVENT LISTENERS - MENÚ
+   ───────────────────────────────────────────────────────────────────── */
+
+// Click en botón hamburguesa
+hamburgerBtn.addEventListener("click", toggleMobileMenu);
+
+// Click en botón desplegable
+menuToggle.addEventListener("click", toggleDropdownMenu);
+
+// Click en enlaces del menú móvil (cierra menú al navegar)
+document.querySelectorAll(".mobile-menu a").forEach((link) => {
+  link.addEventListener("click", closeMenus);
+});
+
+// Click en enlaces del menú desplegable (cierra menú al navegar)
+document.querySelectorAll(".dropdown-menu a").forEach((link) => {
+  link.addEventListener("click", closeMenus);
+});
+
+// Click fuera del menú cierra ambos menús
+document.addEventListener("click", (event) => {
+  const isClickInsideMenu =
+    mobileMenu.contains(event.target) ||
+    hamburgerBtn.contains(event.target) ||
+    menuToggle.contains(event.target) ||
+    dropdownMenu.contains(event.target);
+
+  if (!isClickInsideMenu) {
+    closeMenus();
+  }
+});
+
+// Cerrar menús cuando se redimensiona la pantalla
+window.addEventListener("resize", () => {
+  closeMenus();
+});
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INICIALIZACIÓN - CANVAS
+   ═══════════════════════════════════════════════════════════════════════ */
 
 // Redimensionar canvas cuando cambia tamaño de ventana
 window.addEventListener("resize", resizeCanvas);
@@ -202,20 +301,20 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* ─────────────────────────────────────────────────────────────────────
-   NOTAS DE PERFORMANCE
+   NOTAS DE PERFORMANCE Y ACCESIBILIDAD
    ───────────────────────────────────────────────────────────────────── */
 /*
-  ✓ Uso de requestAnimationFrame en lugar de setInterval
-  ✓ Canvas en fixed position sin bloquear interacción (pointer-events: none)
-  ✓ Limpieza eficiente del canvas (clearRect)
-  ✓ Cálculos matemáticos optimizados (sin iteraciones innecesarias)
+  CANVAS:
+  ✓ requestAnimationFrame en lugar de setInterval
   ✓ Detección de visibilidad de pestaña para pausar animación
   ✓ Support para High DPI displays (devicePixelRatio)
-  ✓ Regeneración de líneas al redimensionar (no en tiempo real)
-  
-  Optimizaciones aplicadas:
-  • Menos líneas en mobile (5 vs 9 en desktop)
-  • Parallax desactivado en mobile
-  • Preload de tipografía WOFF2
-  • CSS variables para mantenibilidad
+  ✓ Menos líneas en mobile (5 vs 9 en desktop)
+
+  MENÚ:
+  ✓ Mobile First: menú hamburguesa por defecto
+  ✓ Menú desplegable en desktop
+  ✓ ARIA labels para accesibilidad
+  ✓ Cierre automático al navegar o hacer click fuera
+  ✓ Respeta prefers-reduced-motion
+  ✓ Estados focus para navegación keyboard
 */

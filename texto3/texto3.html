@@ -3,20 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="A los pies del árbol - Obra teatral basada en el pensamiento de Humberto Maturana"
-    />
+    <meta name="description" content="A los pies del árbol - Texto 3" />
 
-    <title>A los pies del árbol</title>
+    <title>A los pies del árbol - Texto 3</title>
 
     <!-- CSS separado -->
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
 
     <!-- Preload tipografía para evitar FOIT/FOUT -->
     <link
       rel="preload"
-      href="/assets/fonts/Lunema-Regular.woff2"
+      href="../assets/fonts/Lunema-Regular.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -29,20 +26,92 @@
 
     <!-- Barra de navegación fija -->
     <nav class="topbar" role="navigation" aria-label="Navegación principal">
-      <a
-        class="info-link"
-        href="/index.html"
-        aria-label="Ir a información de la obra"
-        >i</a
+      <!-- Botón hamburguesa (solo mobile) -->
+      <button
+        class="hamburger"
+        id="hamburgerBtn"
+        aria-label="Abrir menú de textos"
+        aria-expanded="false"
       >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Título centrado -->
       <span class="topbar-title">A los pies del árbol</span>
+
+      <!-- Menú desplegable (desktop) / hamburguesa (mobile) -->
+      <div class="menu-container" id="menuContainer">
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Menú de textos"
+          aria-expanded="false"
+        >
+          Textos
+        </button>
+
+        <!-- Menú desplegable -->
+        <ul class="dropdown-menu" id="dropdownMenu" role="menu">
+          <li role="none">
+            <a href="../texto1/texto1.html" role="menuitem">Texto 1</a>
+          </li>
+          <li role="none">
+            <a href="../texto3/texto3.html" role="menuitem">Texto 3</a>
+          </li>
+          <li role="none">
+            <a href="../texto3/texto3.html" role="menuitem">Texto 3</a>
+          </li>
+          <li role="none">
+            <a href="../texto4/texto4.html" role="menuitem">Texto 4</a>
+          </li>
+          <li role="none">
+            <a href="../texto5/texto5.html" role="menuitem">Texto 5</a>
+          </li>
+          <li role="none">
+            <a href="../texto6/texto6.html" role="menuitem">Texto 6</a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
-    <!-- Sección Hero -->
+    <!-- Menú móvil (hamburguesa) - se muestra solo en dispositivos pequeños -->
+    <div
+      class="mobile-menu"
+      id="mobileMenu"
+      role="navigation"
+      aria-label="Menú móvil"
+    >
+      <ul role="menu">
+        <li role="none">
+          <a href="../texto1/texto1.html" role="menuitem">Texto 1</a>
+        </li>
+        <li role="none">
+          <a href="../texto3/texto3.html" role="menuitem">Texto 3</a>
+        </li>
+        <li role="none">
+          <a href="../texto3/texto3.html" role="menuitem">Texto 3</a>
+        </li>
+        <li role="none">
+          <a href="../texto4/texto4.html" role="menuitem">Texto 4</a>
+        </li>
+        <li role="none">
+          <a href="../texto5/texto5.html" role="menuitem">Texto 5</a>
+        </li>
+        <li role="none">
+          <a href="../texto6/texto6.html" role="menuitem">Texto 6</a>
+        </li>
+      </ul>
+    </div>
 
     <!-- Sección Texto -->
-    <section>
-      <div class="content">
+    <section class="text-section">
+      <div class="text-content">
+        <div class="back-button-container">
+          <a href="../index.html" class="back-btn">← Volver</a>
+        </div>
+
         <h2>objetividad/percepción/realidad</h2>
 
         <p>
@@ -63,7 +132,21 @@
       </div>
     </section>
 
+    <!-- Pie de página -->
+    <footer>
+      <div>Diseñado por Roberto Torres — Wonder Digital ©</div>
+      <div>
+        Modificado por
+        <a
+          href="https://jboschlagos.github.io/19-PortafolioPersonal/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Jorge Bosch | Reducido DEV</a
+        >
+      </div>
+    </footer>
+
     <!-- JavaScript separado -->
-    <script src="/assets/js/main.js" defer></script>
+    <script src="../assets/js/main.js" defer></script>
   </body>
 </html>

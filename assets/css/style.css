@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "Lunema";
-  src: url("../Lunema-Regular.woff2") format("woff2");
+  src: url("../fonts/Lunema-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -62,43 +62,204 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 64px;
   font-size: 13px;
   letter-spacing: 0.55em;
   text-transform: uppercase;
-}
-
-.info-link {
-  position: absolute;
-  left: 39%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #000;
-  color: var(--green);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 0;
-  text-decoration: none;
-  transition: transform var(--transition-speed) ease;
-}
-
-.info-link:hover {
-  transform: translateY(-50%) scale(1.1);
+  gap: 64px;
 }
 
 .topbar-title {
-  padding-left: 40px;
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.08em;
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   4. CANVAS ANIMADO
+   4. BOTÓN HAMBURGUESA (SOLO MOBILE)
+   ───────────────────────────────────────────────────────────────────── */
+
+.hamburger {
+  display: none;
+  position: absolute;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 3px;
+  background: #000;
+  border-radius: 2px;
+  transition: all var(--transition-speed) ease;
+}
+
+/* Animación hamburguesa cuando está activo */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(11px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-11px);
+}
+
+.hamburger:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   5. MENÚ CONTAINER (DESKTOP)
+   ───────────────────────────────────────────────────────────────────── */
+
+.menu-container {
+  position: relative;
+  display: block;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #000;
+  font-family: "Lunema", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all var(--transition-speed) ease;
+}
+
+.menu-toggle:hover {
+  opacity: 0.8;
+}
+
+.menu-toggle:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   6. MENÚ DESPLEGABLE (DESKTOP)
+   ───────────────────────────────────────────────────────────────────── */
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  border: 1px solid #000;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-10px);
+  transition: all var(--transition-speed) ease;
+  z-index: 1000;
+}
+
+.dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 12px 20px;
+  color: #000;
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all var(--transition-speed) ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu li:last-child a {
+  border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu a:focus {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   7. MENÚ MÓVIL (HAMBURGUESA)
+   ───────────────────────────────────────────────────────────────────── */
+
+.mobile-menu {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  background: var(--green);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-speed) ease;
+  z-index: 1000;
+  display: none;
+}
+
+.mobile-menu.active {
+  max-height: 500px;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-menu li {
+  margin: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 14px 20px;
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all var(--transition-speed) ease;
+}
+
+.mobile-menu a:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu a:focus {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   8. CANVAS ANIMADO
    ───────────────────────────────────────────────────────────────────── */
 
 #tree-lines {
@@ -113,7 +274,7 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   5. SECCIONES GENERALES
+   9. SECCIONES GENERALES
    ───────────────────────────────────────────────────────────────────── */
 
 section {
@@ -125,7 +286,7 @@ section {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   6. SECCIÓN HERO
+   10. SECCIÓN HERO
    ───────────────────────────────────────────────────────────────────── */
 
 .hero {
@@ -145,7 +306,7 @@ section {
   inset: 56px 0 0;
   background:
     linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.95)),
-    url("../hero.jpg") center top / cover no-repeat;
+    url("../img/hero.jpg") center top / cover no-repeat;
   opacity: 0.45;
   pointer-events: none;
 }
@@ -225,7 +386,7 @@ h1 {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   7. SECCIONES CON IMÁGENES DE FONDO
+   11. SECCIONES CON IMÁGENES DE FONDO
    ───────────────────────────────────────────────────────────────────── */
 
 .image-section {
@@ -240,13 +401,13 @@ h1 {
 .resena {
   background-image:
     linear-gradient(90deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2)),
-    url("/assets/img/resena.jpg");
+    url("../img/resena.jpg");
 }
 
 .descripcion {
   background-image:
     linear-gradient(90deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.72)),
-    url("/assets/img/description.jpg");
+    url("../img/description.jpg");
   background-position: left center;
 }
 
@@ -277,7 +438,7 @@ p {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   8. SECCIÓN CRÉDITOS
+   12. SECCIÓN CRÉDITOS
    ───────────────────────────────────────────────────────────────────── */
 
 .credits-section {
@@ -320,7 +481,70 @@ p {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   9. PIE DE PÁGINA
+   13. SECCIÓN DE TEXTOS
+   ───────────────────────────────────────────────────────────────────── */
+
+.text-section {
+  min-height: 100vh;
+  padding: 110px 12vw 80px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  background: #000;
+}
+
+.text-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.back-button-container {
+  margin-bottom: 40px;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all var(--transition-speed) ease;
+  margin-bottom: 40px;
+}
+
+.back-btn:hover {
+  background: var(--green);
+  color: #000;
+}
+
+.back-btn:focus {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+.text-section h2 {
+  margin: 0 0 38px;
+  font-size: clamp(34px, 3vw, 60px);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green);
+}
+
+.text-section p {
+  margin: 0 0 20px;
+  font-size: clamp(14px, 1vw, 18px);
+  line-height: 1.7;
+  color: var(--green);
+  text-align: justify;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   14. PIE DE PÁGINA
    ───────────────────────────────────────────────────────────────────── */
 
 footer {
@@ -336,19 +560,35 @@ footer {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   10. MEDIA QUERIES - RESPONSIVE DESIGN
+   14. MEDIA QUERIES - RESPONSIVE DESIGN (MOBILE FIRST)
    ───────────────────────────────────────────────────────────────────── */
 
+/* MOBILE - Breakpoint 900px y menores */
 @media (max-width: 900px) {
-  /* Topbar en mobile */
-  .topbar {
-    gap: 20px;
-    font-size: 11px;
-    letter-spacing: 0.35em;
+  /* Mostrar hamburguesa en mobile */
+  .hamburger {
+    display: flex;
   }
 
-  .info-link {
-    left: 24px;
+  /* Ocultar menú desktop */
+  .menu-container {
+    display: none;
+  }
+
+  /* Mostrar menú móvil */
+  .mobile-menu {
+    display: block;
+  }
+
+  /* Topbar en mobile */
+  .topbar {
+    gap: 0;
+    justify-content: flex-start;
+  }
+
+  .topbar-title {
+    flex: 1;
+    padding-left: 20px;
   }
 
   /* Secciones en mobile */
@@ -403,10 +643,47 @@ footer {
   .image-section {
     background-attachment: scroll;
   }
+
+  /* Sección de textos en mobile */
+  .text-section {
+    padding: 95px 28px 60px;
+  }
+
+  .text-section h2 {
+    margin: 0 0 28px;
+  }
+
+  .back-btn {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+
+/* DESKTOP - Breakpoint 901px y mayores */
+@media (min-width: 901px) {
+  /* Ocultar hamburguesa en desktop */
+  .hamburger {
+    display: none;
+  }
+
+  /* Mostrar menú desktop */
+  .menu-container {
+    display: block;
+  }
+
+  /* Ocultar menú móvil */
+  .mobile-menu {
+    display: none;
+  }
+
+  /* Topbar en desktop */
+  .topbar {
+    gap: 64px;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   11. ACCESIBILIDAD Y PREFERENCIAS DEL USUARIO
+   15. ACCESIBILIDAD Y PREFERENCIAS DEL USUARIO
    ───────────────────────────────────────────────────────────────────── */
 
 /* Respeta preferencia de movimiento reducido */
@@ -428,7 +705,11 @@ footer {
     border-width: 2px;
   }
 
-  .info-link {
-    border: 2px solid var(--green);
+  .hamburger span {
+    height: 4px;
+  }
+
+  .menu-toggle {
+    border: 2px solid #000;
   }
 }
