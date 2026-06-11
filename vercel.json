@@ -1,10 +1,10 @@
 {
   "rewrites": [
-    { "source": "/texto1", "destination": "/texto1/texto1.html" },
-    { "source": "/texto2", "destination": "/texto2/texto2.html" },
-    { "source": "/texto3", "destination": "/texto3/texto3.html" },
-    { "source": "/texto4", "destination": "/texto4/texto4.html" },
-    { "source": "/texto5", "destination": "/texto5/texto5.html" },
-    { "source": "/texto6", "destination": "/texto6/texto6.html" }
+    { "source": "/texto1/", "destination": "/texto1/texto1.html" },
+    { "source": "/texto2/", "destination": "/texto2/texto2.html" },
+    { "source": "/texto3/", "destination": "/texto3/texto3.html" },
+    { "source": "/texto4/", "destination": "/texto4/texto4.html" },
+    { "source": "/texto5/", "destination": "/texto5/texto5.html" },
+    { "source": "/texto6/", "destination": "/texto6/texto6.html" }
   ]
 }
